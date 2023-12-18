@@ -231,12 +231,12 @@ background: #a73831 !important;
 
 
 
-<!-- Weekly Production Card -->
+<!-- Line Efficiency Card -->
 <div class="col mb-3">
   <div class="card bg-danger text-white h-100">
     <div class="card-body py-5 weekly-production-card-body">
-      Weekly Production
-      <h1 class="title-card pt-2" id="weeklyProduction"></h1>
+      Line Efficiency
+      <h1 class="title-card pt-2" id="weeklyProduction">Null</h1>
     </div>
     <div class="card-footer d-flex weekly-production-card-footer">
       <div class="dropdown">
@@ -255,75 +255,66 @@ background: #a73831 !important;
 </div>
 
 <script>
-  const columnERange = 'Sheet1!E2:E'; // Range for data in column E starting from E2
-  const columnFRange = 'Sheet1!F2:F'; // Range for data in column F starting from F2
-  const thresholdCell = 'Sheet1!G2'; // Threshold cell reference
+  const columnSRange = 'Production&WIP!S3:S'; // Range for data in column S starting from S3
+  const columnAARange = 'Production&WIP!AA3:AA'; // Range for data in column AA starting from AA3
 
   const weeklyProduction = document.getElementById('weeklyProduction');
   const cardBody = document.querySelector('.weekly-production-card-body');
   const cardFooter = document.querySelector('.weekly-production-card-footer');
 
-  // Fetch the threshold value from Google Sheets using the Sheets API
-  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${thresholdCell}?key=${apiKey}`)
+  // Fetch data from Google Sheets using the Sheets API for column S
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${columnSRange}?key=${apiKey}`)
     .then(response => response.json())
-    .then(dataThreshold => {
-      const thresholdValue = parseFloat(dataThreshold.values[0][0]); // Get the threshold value as a number
+    .then(dataS => {
+      const dropdownOptions = document.getElementById('dropdownOptions');
 
-      // Fetch data from Google Sheets using the Sheets API for column E
-      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${columnERange}?key=${apiKey}`)
+      // Fetch data from Google Sheets using the Sheets API for column AA
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${columnAARange}?key=${apiKey}`)
         .then(response => response.json())
-        .then(dataE => {
-          const dropdownOptions = document.getElementById('dropdownOptions');
+        .then(dataAA => {
+          const valuesS = dataS.values;
+          const valuesAA = dataAA.values;
 
-          // Fetch data from Google Sheets using the Sheets API for column F
-          fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${columnFRange}?key=${apiKey}`)
-            .then(response => response.json())
-            .then(dataF => {
-              const valuesE = dataE.values;
-              const valuesF = dataF.values;
+          // Populate the dropdown with options from column S and corresponding values from column AA
+          valuesS.forEach((value, index) => {
+            const option = document.createElement('li');
+            option.classList.add('dropdown-item');
+            option.textContent = `${value[0]}`;
+            option.addEventListener('click', () => {
+              weeklyProduction.textContent = valuesAA[index][0];
 
-              // Populate the dropdown with options from column E and corresponding values from column F
-              valuesE.forEach((value, index) => {
-                const option = document.createElement('li');
-                option.classList.add('dropdown-item');
-                option.textContent = `${value[0]}`;
-                option.addEventListener('click', () => {
-                  weeklyProduction.textContent = valuesF[index][0];
+              // Check for card color based on the value selected from the dropdown
+              const thresholdValue = parseFloat(valuesAA[index][0]); // Assuming the value is a number
 
-                  // Check if the value from column F is greater or less than the threshold value
-                  if (parseFloat(valuesF[index][0]) < thresholdValue) {
-                    // Set card color to danger if F column value is less than the threshold
-                    cardBody.classList.remove('bg-success');
-                    cardBody.classList.add('bg-danger');
-                    cardFooter.classList.remove('bg-success');
-                    cardFooter.classList.add('bg-danger');
-                  } else {
-                    // Set card color to success if F column value is greater than or equal to the threshold
-                    cardBody.classList.remove('bg-danger');
-                    cardBody.classList.add('bg-success');
-                    cardFooter.classList.remove('bg-danger');
-                    cardFooter.classList.add('bg-success');
-                  }
-                });
-                dropdownOptions.appendChild(option);
-
-                // Apply styling to dropdown options
-                option.style.cursor = 'pointer'; // Set cursor to pointer
-                option.classList.add('text-primary'); // Apply Bootstrap primary color to text
-              });
-            })
-            .catch(error => {
-              console.error('Error fetching data from column F:', error);
+              if (thresholdValue /* Compare with your threshold value */) {
+                // Set card color to success or danger based on the condition
+                cardBody.classList.remove('bg-danger');
+                cardBody.classList.add('bg-success');
+                cardFooter.classList.remove('bg-danger');
+                cardFooter.classList.add('bg-success');
+              } else {
+                cardBody.classList.remove('bg-success');
+                cardBody.classList.add('bg-danger');
+                cardFooter.classList.remove('bg-success');
+                cardFooter.classList.add('bg-danger');
+              }
             });
+            dropdownOptions.appendChild(option);
+
+            // Apply styling to dropdown options
+            option.style.cursor = 'pointer'; // Set cursor to pointer
+            option.classList.add('text-primary'); // Apply Bootstrap primary color to text
+          });
         })
         .catch(error => {
-          console.error('Error fetching data from column E:', error);
+          console.error('Error fetching data from column AA:', error);
         });
     })
     .catch(error => {
-      console.error('Error fetching threshold data:', error);
+      console.error('Error fetching data from column S:', error);
     });
 </script>
+
 </div>
 
 
