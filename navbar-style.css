@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Poppins&family=Ubuntu&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'DM Sans', sans-serif;
+    
+}
+.logo{
+    margin-top: 80px;
+}
+.chart-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+.heading{
+    color: black;
+}
+.cards-container {
+    margin-top: 100px; /* Adjust this value as needed */
+  }
+
+.title-card{
+    font-size: 4rem;
+}
+  
+  /* 
+  Previous API
+  Api:AIzaSyB8kIoHY4HFc9dJEkOI0iUMgOhgBZZBBNU
+  SheetID: 159PV9fNdwgWNAvNBFhHuRj1PdneZnAb0IYHx7KWfY-0
+  Client ID: 906842487623-b3ui5h4ti1piqlrgkv7bmf7viqicjtl5.apps.googleusercontent.com
+  Client secret : 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 */
+  /* fetch('https://sheets.googleapis.com/v4/spreadsheets/159PV9fNdwgWNAvNBFhHuRj1PdneZnAb0IYHx7KWfY-0/values/Sheet1!C:D?key=AIzaSyB8kIoHY4HFc9dJEkOI0iUMgOhgBZZBBNU') */
+
+
+  /* New API 
+  Api : AIzaSyDy6gIJZN3Nu4n2kJ7Vk0vghb2Bnw-20Bc
+  SheetID : 1uKsoD6mH7M87ScTDt-LIC0prQegGZEIljec9GkyaGAY
+  ClientID : 892369648812-lfcmoc30tsf39bola3r7311v83oaicdp.apps.googleusercontent.com
+  Client Secret : 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
+
+  
+  
+  */

@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IOT Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Use the required colorful icon for your favicon -->
+  <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='#007bff' d='M416 32H96C70.72 32 50.24 52.48 50.24 77.76V432c0 25.28 20.48 45.76 45.76 45.76H416c25.28 0 46-20.48 46-45.76V77.76C462 52.48 441.52 32 416 32zm-160 72a56 56 0 11-56 56 56 56 0 0156-56zm0 240c-44.16 0-80 35.84-80 80s35.84 80 80 80 80-35.84 80-80-35.84-80-80-80zm96-176H160v-16a16 16 0 0116-16h160a16 16 0 0116 16v16z'/></svg>">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="navbar-style.css">
+  <script src="https://apis.google.com/js/api.js"></script>
+  <!-- Load the Apex Charts library -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <!-- Load the Google Charts library -->
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+
+</head>
+<body>
+    <table id="sheetData">
+        <!-- Data will be displayed here -->
+      </table>
+    
+      <script>
+        // Client ID and API key from the Developer Console
+        const CLIENT_ID = '892369648812-lfcmoc30tsf39bola3r7311v83oaicdp.apps.googleusercontent.com';
+        const API_KEY = 'AIzaSyDy6gIJZN3Nu4n2kJ7Vk0vghb2Bnw-20Bc';
+    
+        // Array of discovery doc URLs for APIs used by the application
+        const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+    
+        // Authorization scopes required by the API; here, read-only access to Google Sheets
+        const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
+    
+        // Function to load the Google Sheets API client
+        function handleClientLoad() {
+          gapi.load('client:auth2', initClient);
+        }
+    
+        // Initialize the API client library and set up sign-in state listeners
+        function initClient() {
+          gapi.client.init({
+            apiKey: API_KEY,
+            clientId: CLIENT_ID,
+            discoveryDocs: DISCOVERY_DOCS,
+            scope: SCOPES
+          }).then(function () {
+            // Fetch data from your Google Sheet
+            gapi.client.sheets.spreadsheets.values.get({
+              spreadsheetId: '1uKsoD6mH7M87ScTDt-LIC0prQegGZEIljec9GkyaGAY',
+              range: 'Production&WIP' // Update with your sheet name or range
+            }).then(function(response) {
+              const values = response.result.values;
+              const table = document.getElementById('sheetData');
+              
+              // Display data in a table
+              values.forEach(row => {
+                const tableRow = document.createElement('tr');
+                row.forEach(cell => {
+                  const tableCell = document.createElement('td');
+                  tableCell.textContent = cell;
+                  tableRow.appendChild(tableCell);
+                });
+                table.appendChild(tableRow);
+              });
+            });
+          });
+        }
+      </script>
+      
+      <!-- Load the Google Sheets API client asynchronously -->
+    <script async defer src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};handleClientLoad()"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+    
+<script>
+        const apiKey = 'AIzaSyB8kIoHY4HFc9dJEkOI0iUMgOhgBZZBBNU'; // Replace with your Google Sheets API key
+        const spreadsheetId = '1uKsoD6mH7M87ScTDt-LIC0prQegGZEIljec9GkyaGAY'; // Replace with your Google Spreadsheet ID
+        const range = 'Production&WIP!AT1'; // Replace with your desired range (columns A and B)
+</script>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="
+background: #a73831 !important;
+">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Dashboard</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+      <!-- Search form -->
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary text-light bg-primary" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="d-flex justify-content-center ">
+  <img src="nift-logo.png" alt="" height="300" class="logo">
+</div>
+
+<h3 class="text-center mt-5">Operational Monitoring System</h3>
+<div class="container cards-container">
+<h2 class="heading">Industry Overview</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+
+
+<!-- Daily Production Card -->
+      <div class="col mb-3">
+        <div class="card bg-primary text-white h-100">
+          <div class="card-body py-5">Daily Production
+            <h1 class="title-card pt-2" id="cellValue"></h1>
+          </div>
+          <div class="card-footer d-flex">
+            View Details
+            <span class="ms-auto">
+              <i class="bi bi-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <script>
+        fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Extracting the data from the response
+            const cellValue = data.values[0][0]; // Getting the value from cell A2
+            const cellValueElement = document.getElementById('cellValue');
+            cellValueElement.textContent = cellValue; // Displaying the value in the HTML element
+          })
+          .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+          });
+      </script>
+
+
+
+<!-- No. of machine running -->
+      <div class="col mb-3">
+        <div class="card bg-success text-white h-100">
+          <div class="card-body py-5">No. of Machine active
+            <h1 class="title-card pt-2" id="runningStatus"></h1>
+          </div>
+          <div class="card-footer d-flex">
+            View Details
+            <span class="ms-auto">
+              <i class="bi bi-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <script>
+        const Runningrange = 'Machine Status & Assists!D17'; // Replace with your desired range (columns A and B)
+        fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${Runningrange}?key=${apiKey}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Extracting the data from the response
+            const cellValue = data.values[0][0]; // Getting the value from cell A2
+            const cellValueElement = document.getElementById('runningStatus');
+            cellValueElement.textContent = cellValue; // Displaying the value in the HTML element
+          })
+          .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+          });
+      </script>
+
+
+
+<!-- No. of Breakdown -->
+      <div class="col mb-3">
+        <div class="card bg-danger text-white h-100">
+          <div class="card-body py-5">No. of Machine Breakdown
+            <h1 class="title-card pt-2" id="breakdownStatus"></h1>
+          </div>
+          <div class="card-footer d-flex">
+            View Details
+            <span class="ms-auto">
+              <i class="bi bi-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <script>
+        const Breakdownrange = 'Machine Status & Assists!D18'; // Replace with your desired range (columns A and B)
+        fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${Breakdownrange}?key=${apiKey}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Extracting the data from the response
+            const cellValue = data.values[0][0]; // Getting the value from cell A2
+            const cellValueElement = document.getElementById('breakdownStatus');
+            cellValueElement.textContent = cellValue; // Displaying the value in the HTML element
+          })
+          .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+          });
+      </script>
+
+
+
+
+<!-- Weekly Production Card -->
+<div class="col mb-3">
+  <div class="card bg-danger text-white h-100">
+    <div class="card-body py-5 weekly-production-card-body">
+      Weekly Production
+      <h1 class="title-card pt-2" id="weeklyProduction"></h1>
+    </div>
+    <div class="card-footer d-flex weekly-production-card-footer">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle bg-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Select Date Range
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdownOptions">
+          <!-- Dropdown options will be populated dynamically -->
+        </ul>
+      </div>
+      <span class="ms-auto">
+        <i class="bi bi-chevron-right"></i>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const columnERange = 'Sheet1!E2:E'; // Range for data in column E starting from E2
+  const columnFRange = 'Sheet1!F2:F'; // Range for data in column F starting from F2
+  const thresholdCell = 'Sheet1!G2'; // Threshold cell reference
+
+  const weeklyProduction = document.getElementById('weeklyProduction');
+  const cardBody = document.querySelector('.weekly-production-card-body');
+  const cardFooter = document.querySelector('.weekly-production-card-footer');
+
+  // Fetch the threshold value from Google Sheets using the Sheets API
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${thresholdCell}?key=${apiKey}`)
+    .then(response => response.json())
+    .then(dataThreshold => {
+      const thresholdValue = parseFloat(dataThreshold.values[0][0]); // Get the threshold value as a number
+
+      // Fetch data from Google Sheets using the Sheets API for column E
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${columnERange}?key=${apiKey}`)
+        .then(response => response.json())
+        .then(dataE => {
+          const dropdownOptions = document.getElementById('dropdownOptions');
+
+          // Fetch data from Google Sheets using the Sheets API for column F
+          fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${columnFRange}?key=${apiKey}`)
+            .then(response => response.json())
+            .then(dataF => {
+              const valuesE = dataE.values;
+              const valuesF = dataF.values;
+
+              // Populate the dropdown with options from column E and corresponding values from column F
+              valuesE.forEach((value, index) => {
+                const option = document.createElement('li');
+                option.classList.add('dropdown-item');
+                option.textContent = `${value[0]}`;
+                option.addEventListener('click', () => {
+                  weeklyProduction.textContent = valuesF[index][0];
+
+                  // Check if the value from column F is greater or less than the threshold value
+                  if (parseFloat(valuesF[index][0]) < thresholdValue) {
+                    // Set card color to danger if F column value is less than the threshold
+                    cardBody.classList.remove('bg-success');
+                    cardBody.classList.add('bg-danger');
+                    cardFooter.classList.remove('bg-success');
+                    cardFooter.classList.add('bg-danger');
+                  } else {
+                    // Set card color to success if F column value is greater than or equal to the threshold
+                    cardBody.classList.remove('bg-danger');
+                    cardBody.classList.add('bg-success');
+                    cardFooter.classList.remove('bg-danger');
+                    cardFooter.classList.add('bg-success');
+                  }
+                });
+                dropdownOptions.appendChild(option);
+
+                // Apply styling to dropdown options
+                option.style.cursor = 'pointer'; // Set cursor to pointer
+                option.classList.add('text-primary'); // Apply Bootstrap primary color to text
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching data from column F:', error);
+            });
+        })
+        .catch(error => {
+          console.error('Error fetching data from column E:', error);
+        });
+    })
+    .catch(error => {
+      console.error('Error fetching threshold data:', error);
+    });
+</script>
+</div>
+
+
+
+
+<!-- Machine Status Card -->
+<div class="d-flex">
+<div class="col-md-6">
+  <div class="container p-4 border rounded bg-primary text-light" id="machineStatusCard">
+    <h2 class="pb-2">Machine Status</h2>
+    <div class="form-group">
+      <label for="machineStatusSelect" class="form-label">Select Machine No.:</label>
+      <select class="form-select" id="machineStatusSelect" onchange="displayMachineStatus()">
+        <option value="">Select Machine</option>
+        <!-- Dropdown options will be populated dynamically -->
+      </select>
+    </div>
+    <div id="machineStatusDisplay" class="mt-3 p-3"></div>
+  </div>
+</div>
+
+<!-- Assitant Status HTML Card -->
+<div class="col-md-6">
+  <div class="container p-4 border rounded bg-primary text-light" id="assistantStatusCard">
+    <h2 class="pb-2">Assistant Status</h2>
+    <div class="form-group">
+      <label for="assistantStatusSelect" class="form-label">Select Machine No.:</label>
+      <select class="form-select" id="assistantStatusSelect" onchange="displayAssistantStatus()">
+        <option value="">Select Machine</option>
+        <!-- Dropdown options will be populated dynamically -->
+      </select>
+    </div>
+    <div id="assistantStatusDisplay" class="mt-3 p-3"></div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Machine Status Card Script-->
+<script>
+  const machineStatusRange = 'Machine Status & Assists!H6:I'; // Range for machine numbers and corresponding statuses
+  const machineStatusCard = document.getElementById('machineStatusCard');
+
+  // Fetch data from Google Sheets using the Sheets API for machine numbers and statuses
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${machineStatusRange}?key=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+      const machineStatusData = data.values;
+
+      const machineStatusSelect = document.getElementById('machineStatusSelect');
+
+      // Populate dropdown options with machine numbers from column W
+      machineStatusData.forEach(row => {
+        const machineNo = row[0]; // Machine No. from column W
+        const option = document.createElement('option');
+        option.value = machineNo;
+        option.textContent = machineNo;
+        machineStatusSelect.appendChild(option);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching machine status data:', error);
+    });
+
+  function displayMachineStatus() {
+    const machineStatusSelect = document.getElementById('machineStatusSelect');
+    const selectedMachineStatus = machineStatusSelect.value;
+
+    const machineStatusDisplay = document.getElementById('machineStatusDisplay');
+
+    // Fetch status for the selected machine from column X
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${machineStatusRange}?key=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        const machineStatusData = data.values;
+
+        // Find the row corresponding to the selected machine status
+        const selectedRow = machineStatusData.find(row => row[0] === selectedMachineStatus);
+
+        if (selectedRow) {
+          const status = selectedRow[1]; // Status from column X
+
+          // Display the status for the selected machine
+          machineStatusDisplay.innerHTML = `<p>Machine No.: ${selectedMachineStatus}</p><p>Status: ${status}</p>`;
+
+          // Check the status and apply corresponding card color
+          if (status.toLowerCase() === 'breakdown') {
+            machineStatusCard.classList.remove('bg-success');
+            machineStatusCard.classList.add('bg-danger');
+          } else if (status.toLowerCase() === 'running') {
+            machineStatusCard.classList.remove('bg-danger');
+            machineStatusCard.classList.add('bg-success');
+          } else {
+            machineStatusCard.classList.remove('bg-danger', 'bg-success');
+          }
+        } else {
+          // If the selected machine status is not found, display an error message
+          machineStatusDisplay.innerHTML = 'Status information not found for the selected machine.';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching machine status:', error);
+      });
+  }
+</script>
+</div>
+
+
+
+
+<!-- Assitant Status Script Card -->
+<script>
+  const assistantStatusRange = 'Machine Status & Assists!K6:L'; // Range for assistant IDs and corresponding statuses
+  const assistantStatusCard = document.getElementById('assistantStatusCard');
+
+  // Fetch data from Google Sheets using the Sheets API for assistant IDs and statuses
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${assistantStatusRange}?key=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+      const assistantStatusData = data.values;
+
+      const assistantStatusSelect = document.getElementById('assistantStatusSelect');
+
+      // Populate dropdown options with assistant IDs from column M
+      assistantStatusData.forEach(row => {
+        const assistantID = row[0]; // Assistant ID from column M
+        const option = document.createElement('option');
+        option.value = assistantID;
+        option.textContent = assistantID;
+        assistantStatusSelect.appendChild(option);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching assistant status data:', error);
+    });
+
+  function displayAssistantStatus() {
+    const assistantStatusSelect = document.getElementById('assistantStatusSelect');
+    const selectedAssistantStatus = assistantStatusSelect.value;
+
+    const assistantStatusDisplay = document.getElementById('assistantStatusDisplay');
+
+    // Fetch status for the selected assistant from column N
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${assistantStatusRange}?key=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        const assistantStatusData = data.values;
+
+        // Find the row corresponding to the selected assistant status
+        const selectedRow = assistantStatusData.find(row => row[0] === selectedAssistantStatus);
+
+        if (selectedRow) {
+          const status = selectedRow[1]; // Status from column N
+
+          // Display the status for the selected assistant
+          assistantStatusDisplay.innerHTML = `<p>Machine No.: ${selectedAssistantStatus}</p><p>Status: ${status}</p>`;
+
+          // Check the status and apply corresponding card color
+          if (status === 'Pending Assistance') {
+            assistantStatusCard.classList.remove('bg-success');
+            assistantStatusCard.classList.add('bg-danger');
+          } else if (status.toLowerCase() === 'running') {
+            assistantStatusCard.classList.remove('bg-danger');
+            assistantStatusCard.classList.add('bg-success');
+          } else {
+            assistantStatusCard.classList.remove('bg-danger', 'bg-success');
+          }
+        } else {
+          // If the selected assistant status is not found, display an error message
+          assistantStatusDisplay.innerHTML = 'Status information not found for the selected assistant.';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching assistant status:', error);
+      });
+  }
+</script>
+
+
+
+
+<!-- Total Production Over Time -->
+<div id="chart" class="container mt-5"><h2 class="title">Total Production Over Time</h2></div>
+<script>
+  const rangeProduction = 'Production&WIP!AN:AQ';
+  // Load the visualization library
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangeProduction}?key=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+      // Extracting data from the response
+      const chartData = data.values.slice(1); // Remove header row
+      const dates = [];
+      const productionValues = [];
+
+      // Loop through the data and format it for the chart
+      chartData.forEach(row => {
+        const date = row[0]; // Assuming the date is in column C
+        const production = parseInt(row[1]); // Assuming the production value is in column D
+        dates.push(date);
+        productionValues.push(production);
+      });
+
+      // Chart configuration using ApexCharts
+      const options = {
+        chart: {
+          type: 'line',
+          height: 350,
+        },
+        series: [{
+          name: 'Production',
+          data: productionValues,
+        }],
+        xaxis: {
+          categories: dates,
+        },
+      };
+
+      // Create the line chart using ApexCharts
+      const chart = new ApexCharts(document.getElementById('chart'), options);
+      chart.render();
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+</script>
+
+
+
+
+
+
+<!-- Pending Order HTML -->
+<div class="container mt-5">
+  <div class="row">
+    <!-- First column for Orders Chart -->
+    <div class="col-md-6">
+      <div id="OrdersChartContainer" class="p-4 border rounded">
+        <h3 class="title text-center">Pending Orders</h3>
+        <!-- Include content related to the Orders Chart -->
+      </div>
+    </div>
+
+<!-- WIP Status HTML -->
+    <div class="col-md-6">
+      <div class="container p-4 border rounded bg-primary text-light">
+        <h2 class="pb-2">WIP Status</h2>
+        <div class="form-group">
+          <label for="machineSelect" class="form-label">Select Machine No.:</label>
+          <select class="form-select" id="machineSelect" onchange="displayWIP()">
+            <option value="">Select Machine</option>
+            <!-- Dropdown options will be populated dynamically -->
+          </select>
+        </div>
+        <div id="wipDisplay" class="mt-3 p-3 bg-transparent text-light"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pending Order Script -->
+<script>
+  const currentProductionCell = 'Production&WIP!AR2'; // Cell containing current production %
+  const totalOrdersCell = 'Production&WIP!AH2'; // Cell containing total orders
+  
+  // Fetch data from Google Sheets using the Sheets API for current production %
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${currentProductionCell}?key=${apiKey}`)
+    .then(response => response.json())
+    .then(currentProductionData => {
+      // Fetch data from Google Sheets using the Sheets API for total orders
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${totalOrdersCell}?key=${apiKey}`)
+        .then(response => response.json())
+        .then(totalOrdersData => {
+          const currentProduction = parseInt(currentProductionData.values[0][0]);
+          const totalOrders = parseInt(totalOrdersData.values[0][0]);
+  
+          const options = {
+            series: [currentProduction],
+            chart: {
+              type: 'radialBar',
+              offsetY: -20,
+              sparkline: {
+                enabled: true
+              }
+            },
+            plotOptions: {
+              radialBar: {
+                startAngle: -90,
+                endAngle: 90,
+                track: {
+                  background: "#e7e7e7",
+                  strokeWidth: '97%',
+                  margin: 5,
+                  dropShadow: {
+                    enabled: true,
+                    top: 2,
+                    left: 0,
+                    color: '#999',
+                    opacity: 1,
+                    blur: 2
+                  }
+                },
+                dataLabels: {
+                  name: {
+                    show: false
+                  },
+                  value: {
+                    offsetY: -2,
+                    fontSize: '22px'
+                  }
+                }
+              }
+            },
+            grid: {
+              padding: {
+                top: -10
+              }
+            },
+            fill: {
+              type: 'gradient',
+              gradient: {
+                shade: 'light',
+                shadeIntensity: 0.4,
+                inverseColors: false,
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 50, 53, 91]
+              },
+            },
+            labels: ['Average Results'],
+          };
+  
+          const chart = new ApexCharts(document.querySelector("#OrdersChartContainer"), options);
+          chart.render();
+        })
+        .catch(error => {
+          console.error('Error fetching total orders data:', error);
+        });
+    })
+    .catch(error => {
+      console.error('Error fetching current production data:', error);
+    });
+</script>
+
+<!-- WIP Status Script -->
+<script>
+  const machineRange = 'Production&WIP!I3:K'; // Define the range for machine numbers and WIP
+
+  // Fetch data from Google Sheets using the Sheets API for machine numbers and WIP
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${machineRange}?key=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+      const machineData = data.values;
+
+      const machineSelect = document.getElementById('machineSelect');
+
+      // Populate dropdown options with machine numbers from column I (assuming machine numbers are in column I)
+      machineData.forEach(row => {
+        const machineNo = row[0]; // Machine No. from column I
+        const option = document.createElement('option');
+        option.value = machineNo;
+        option.textContent = machineNo;
+        machineSelect.appendChild(option);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching machine data:', error);
+    });
+
+  function displayWIP() {
+    const machineSelect = document.getElementById('machineSelect');
+    const selectedMachine = machineSelect.value;
+
+    const wipDisplay = document.getElementById('wipDisplay');
+
+    // Fetch WIP for the selected machine from column K
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${machineRange}?key=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        const machineData = data.values;
+
+        // Find the row corresponding to the selected machine
+        const selectedRow = machineData.find(row => row[0] === selectedMachine);
+
+        if (selectedRow) {
+          const wip = selectedRow[2]; // WIP from column K (index 2)
+
+          // Display the WIP for the selected machine
+          wipDisplay.innerHTML = `<p>Machine No.: ${selectedMachine}</p><p>WIP: ${wip}</p>`;
+        } else {
+          // If the selected machine is not found, display an error message
+          wipDisplay.innerHTML = 'WIP information not found for the selected machine.';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching WIP data:', error);
+      });
+  }
+</script>
+
+
+
+<!-- No. of Breakdown per machine -->
+<div id="machineBreakdownChart" class="container"><h2 class="title mt-5">No. of Breakdown per machine</h2></div>
+<script>const machineDataRange = 'BreakdownSheet!C2:C';
+
+  // Fetch data from Google Sheets using the Sheets API
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${machineDataRange}?key=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+      const machineCountMap = {};
+  
+      // Count occurrences of each machine number
+      data.values.forEach(row => {
+        const machineNumber = row[0];
+        if (machineCountMap[machineNumber]) {
+          machineCountMap[machineNumber]++;
+        } else {
+          machineCountMap[machineNumber] = 1;
+        }
+      });
+  
+      const machineNumbers = Object.keys(machineCountMap); // Unique machine numbers
+      const breakdowns = Object.values(machineCountMap); // Occurrences of machines
+  
+      // Chart options
+      const options = {
+        chart: {
+          height: 350,
+          type: 'bar',
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 10,
+            columnWidth: '50%',
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: 2
+        },
+        grid: {
+          row: {
+            colors: ['#fff', '#f2f2f2']
+          }
+        },
+        xaxis: {
+          labels: {
+            rotate: -45
+          },
+          categories: machineNumbers, // Unique Machine No. values on x-axis
+          tickPlacement: 'on'
+        },
+        yaxis: {
+          title: {
+            text: 'Occurrences',
+          },
+        },
+        series: [{
+          name: 'Occurrences',
+          data: breakdowns // Occurrences values on y-axis
+        }],
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shade: 'light',
+            type: 'horizontal',
+            shadeIntensity: 0.25,
+            gradientToColors: undefined,
+            inverseColors: true,
+            opacityFrom: 0.85,
+            opacityTo: 0.85,
+            stops: [50, 0, 100]
+          },
+        }
+      };
+  
+      // Render the chart
+      const chart = new ApexCharts(document.querySelector('#machineBreakdownChart'), options);
+      chart.render();
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+  
+</script>
+
+<!-- Top machine breakdown -->
+<div class="container mt-5">
+  <h2 class="pb-2">Top Machine Breakdown</h2>
+  <table class="table table-striped table-hover table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Machine No.</th>
+        <th scope="col">No. of Breakdown</th>
+      </tr>
+    </thead>
+    <tbody id="machineData">
+      <!-- Table body will be populated dynamically -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const Countrange = 'BreakdownSheet!C2:C';
+
+  // Fetch data from Google Sheets using the Sheets API
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${Countrange}?key=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+      const machineData = data.values.slice(1); // Exclude header row
+
+      // Count occurrences of each machine number
+      const machineCountMap = {};
+      machineData.forEach(row => {
+        const machineNumber = row[0];
+        if (machineCountMap[machineNumber]) {
+          machineCountMap[machineNumber]++;
+        } else {
+          machineCountMap[machineNumber] = 1;
+        }
+      });
+
+      // Sort the machine data based on the occurrences in descending order
+      const sortedMachines = Object.entries(machineCountMap)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 5); // Get the top 5 machines
+
+      const tableBody = document.getElementById('machineData');
+
+      // Display the top 5 machines with the highest occurrences
+      sortedMachines.forEach(([machineNo, count]) => {
+        const row = document.createElement('tr');
+        const machineCell = document.createElement('td');
+        const countCell = document.createElement('td');
+
+        machineCell.textContent = machineNo;
+        countCell.textContent = count;
+
+        row.appendChild(machineCell);
+        row.appendChild(countCell);
+        tableBody.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+</script>
+
+
+
+</div>
+<footer class="footer bg-light text-center py-3">
+  <div class="container">
+    <span>&copy; 2023 Abhay | Gyan | Kshitija | Ridhi. All rights reserved.</span>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
